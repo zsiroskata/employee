@@ -98,6 +98,7 @@ namespace empleyee
 
         //18.Számold ki a férfi és női alkalmazottak átlagfizetését tetszőleges módszerrel.
         }
+
         static List<MunkaValalo> munkasok = new List<MunkaValalo>();
         static List<MunkaValalo> munkatalalat(List<MunkaValalo> munkasok, string kulcs)
         {

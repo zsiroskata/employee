@@ -29,7 +29,10 @@ namespace empleyee
             Salary = int.Parse(sor[7]);
         }
 
-    
+        public void kiir()
+        {
+            Console.WriteLine($"legidősebb ember adatai: {Name}, {Age}, {Position}, {Gender}, {MaritalStatus}, {Salary}");
+        }
 
     }
 }
