@@ -24,7 +24,7 @@ namespace empleyee
             City = sor[2];
             Department = sor[3];
             Position = sor[4];
-            Gender = sor[5] == "male";
+            Gender = sor[5] == "Male";
             MaritalStatus = sor[6];
             Salary = int.Parse(sor[7]);
         }
