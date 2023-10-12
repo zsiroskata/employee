@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
-
 namespace empleyee
 {
     class Program
@@ -24,7 +23,7 @@ namespace empleyee
                 munkasok.Add(sor);
 
             }
-            
+
 
             //3.Készíts egy osztályon belüli virtuális metódust az adatok kiírására.
             foreach (var munkas in munkasok)
@@ -61,7 +60,7 @@ namespace empleyee
             //10.Függvény segítségével keresd ki, majd a virtuális metódus segítségével írd ki a legidősebb személy adatait.
             Console.WriteLine("\n10.feladat");
 
-            MunkaValalo legidosebb = null;                 
+            MunkaValalo legidosebb = null;
             int max = 0;
             foreach (var munkas in munkasok)
             {
@@ -80,12 +79,12 @@ namespace empleyee
             {
                 Console.WriteLine("nincs adat");
             }
-            
+
 
             //11.Függvény segítségével döntsd el, majd a főprogramban írd ki, hogy van-e 30 év fölötti személy, és emellett írd ki a nevét is. (Ez a függvény tehát két értéket kell, hogy generáljon, ezt egyetlen szövegként add vissza a főprogramnak, és a főprogram bontsa szét az adatokat, majd utána írja ki.)
             Console.WriteLine("\n11.feladat");
             Console.WriteLine("30 év fölötti személyek:");
-            idos();
+            Program.idos();
 
             //12.Függvénnyel válogasd ki azon személyek nevét egy új tömbbe(nem listába), akik 30 évnél fiatalabbak. Ennek a tömbnek a hasznos tartalmát írd ki a főprogramban.
             Console.WriteLine("\n12. feladat");
@@ -93,16 +92,37 @@ namespace empleyee
             fiatal();
 
             //13.Egyetlen függvénnyel keresd meg a legfiatalabb és a legidősebb személyt.A függvénynek legyen két olyan paramétere, amiben az eredményt vissza lehet juttatni a főprogramba, és ott ki lehet írni a nevüket és a korukat. A függvény visszatérési értéke pedig képes legyen azt jelezni, hogy van-e több ugyanolyan korú legfiatalabb személy.
+            Console.Clear();
+            var rendezettSor = munkasok.OrderBy(ember => ember.Age).ToList();
+
+            var legfiatalabb = rendezettSor.First();
+            var idos = rendezettSor.Last();
+
+            var vizsgalas = rendezettSor.Count(ember => ember.Age == legfiatalabb.Age) > 1;
+            var legfiatalabb2 = rendezettSor.Skip(1).FirstOrDefault();
+
+            Console.WriteLine($"Legfiatalabb ember: {legfiatalabb.Name}, {legfiatalabb.Age} éves");
+            Console.WriteLine($"Másik legfiatalabb ember: {legfiatalabb2.Name}, {legfiatalabb2.Age} éves");
+
+            Console.WriteLine($"Legidősebb személy: {idos.Name}, {idos.Age} éves");
+      
+            Console.Read();
 
             //14.Készíts egy függvényt, ami átszámolja az euróban megadott havi fizetést éves fizetéssé, és az eredményt még váltsd át magyar forintba is.
-            Console.WriteLine("\n14.feladat");
-           
+            Console.WriteLine("\n14.feladat\nFüggvény elkészítése.");
+
 
             //15.Készíts egy függvényt, amelynek visszatérési értéke egy objektumokat tartalmazó lista, amelyben szerepel az 5 millió forint éves fizetés feletti munkavállalók neve és az éves fizetésük forintban. (Az átszámításhoz használd az előző feladat függvényét.)  Az elkészült listát a főprogram írja ki egy új fájlba(a virtuális metódus segítségével).
-            Console.WriteLine("15.feladat");
-          
+            Console.WriteLine("\n15.feladat\nNekik az évi fizetésük nagyobb, mint öt millió");
 
-
+            foreach (var munkas in munkasok)
+            {
+                if (munkas.euroToHuf() > 5000000)
+                {
+                    Console.WriteLine($"neve {munkas.Name}, éves keresete: {munkas.euroToHuf()}Ft");
+                }
+            }
+       
             //16.Írj egy függvényt, aminek a paramétere az eredeti adatokat tartalmazó listának megfelelő típusú.Ennek segítségével számold ki az összes alkalmazott átlagfizetését.
             Console.WriteLine("16.feladat");
             int atlagFiz = atlagFizetes(munkasok);
@@ -130,7 +150,7 @@ namespace empleyee
             //18.Számold ki a férfi és női alkalmazottak átlagfizetését tetszőleges módszerrel.
             int atlagFizFemale = atlagFizetesFemale(munkasok);
             Console.WriteLine($"Átlag fizetés a nőknek: {atlagFizFemale} euro");
-            
+
             int atlagFizMale = atlagFizetesMale(munkasok);
             Console.WriteLine($"Átlag fizetés a férfiaknak: {atlagFizMale} euro");
 
@@ -161,10 +181,9 @@ namespace empleyee
             {
                 kor += munkasok[i].Age;
             }
-            
-            Console.WriteLine($"Életkorok átlaga {kor / munkasok.Count}");     
-        }
 
+            Console.WriteLine($"Életkorok átlaga {kor / munkasok.Count}");
+        }
 
         static void idos()
         {
@@ -186,21 +205,14 @@ namespace empleyee
                     Console.WriteLine($"{munkas.Name}, {munkas.Age} éves");
                 }
             }
-        }    
+        }
 
-        static void EuroToHuf()
+        static void igen()
         {
-            int valto = 388;
-            foreach (var munkas in munkasok)
-            {
-                int evesFizetesEuro = munkas.Salary * 12;
-                int evesFizetesHuf = evesFizetesEuro * valto;
-                Console.WriteLine($"{munkas.Name}, éves fizetés: {evesFizetesHuf} HUF");
-            }
+            
             
         }
 
-     
         static int atlagFizetes(List<MunkaValalo> munkasok)
         {
             int fizu = 0;
@@ -208,7 +220,7 @@ namespace empleyee
             {
                 fizu += munkas.Salary;
             }
-            int atlag = fizu / munkasok.Count;   
+            int atlag = fizu / munkasok.Count;
             return atlag;
         }
         static int atlagFizetesFemale(List<MunkaValalo> munkasok)
@@ -236,7 +248,7 @@ namespace empleyee
 
             foreach (var munkas in munkasok)
             {
-                if (munkas.Gender != false )
+                if (munkas.Gender != false)
                 {
                     fizu += munkas.Salary;
                     male++;
@@ -246,7 +258,6 @@ namespace empleyee
             int atlag = fizu / male;
             return atlag;
         }
-
 
     }
 
